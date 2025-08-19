@@ -1,12 +1,42 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.core.files.base import ContentFile
+from io import BytesIO
+import qrcode
 
 class Table(models.Model):
     table_number = models.CharField(max_length=10, unique=True, help_text="唯一的餐桌号")
     is_available = models.BooleanField(default=True, help_text="餐桌当前是否可用?")
 
+    qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True, help_text="自动生成的二维码")
+
     def __str__(self):
         return f"Table {self.table_number}"
+    
+    def save(self, *args, **kwargs):
+        # 先执行父类的save方法，确保对象已保存并拥有ID
+        super().save(*args, **kwargs)
+
+        # 检查二维码是否需要生成（仅在新创建或table_number变化时，为简化逻辑此处每次都生成）
+        # 1. 构建要编码到二维码中的URL
+        qr_url = f"{settings.FRONTEND_BASE_URL}/{self.table_number}"
+        
+        # 2. 生成二维码图像
+        qr_img = qrcode.make(qr_url)
+        
+        # 3. 将图像保存到内存中的一个缓冲区
+        buffer = BytesIO()
+        qr_img.save(buffer, format='PNG')
+        
+        # 4. 创建文件名并保存到ImageField
+        file_name = f'table_{self.table_number}_qr.png'
+        # 使用ContentFile将缓冲区内容包装成Django可以处理的文件对象
+        # save=False避免再次调用本save方法导致无限循环
+        self.qr_code.save(file_name, ContentFile(buffer.getvalue()), save=False)
+
+        # 再次调用save，但只更新qr_code字段，以避免无限循环
+        super().save(update_fields=['qr_code'])
 
 class MenuItem(models.Model):
     name = models.CharField(max_length=100, unique=True, help_text="菜品名称")
