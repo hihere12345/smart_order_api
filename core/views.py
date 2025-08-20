@@ -141,8 +141,6 @@ class AdminTableViewSet(viewsets.ModelViewSet):
 class PaymentView(generics.GenericAPIView):
 
     permission_classes = [AllowAny]
-    queryset = Payment.objects.all()
-    serializer_class = PaymentSerializer
 
     def post(self, request, pk, format=None):
         try:
