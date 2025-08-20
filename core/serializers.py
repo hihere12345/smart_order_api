@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Table, MenuItem, Order, OrderItem
+from .models import Table, MenuItem, Order, OrderItem, Payment
 
 class TableSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,12 +38,10 @@ class OrderSerializer(serializers.ModelSerializer):
         read_only_fields = ['status', 'is_paid', 'created_at']
 
 class StaffOrderItemUpdateSerializer(serializers.ModelSerializer):
-    # 将关联的字段设为只读，以提供上下文信息，但防止修改
     menu_item = CustomerMenuItemSerializer(read_only=True)
     price = serializers.DecimalField(max_digits=8, decimal_places=2, read_only=True)
     id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = OrderItem
-        # 字段列表中只包含 id, menu_item, price (只读) 和 quantity (可写)
         fields = ['id', 'menu_item', 'price', 'quantity']

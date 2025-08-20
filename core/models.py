@@ -13,29 +13,15 @@ class Table(models.Model):
 
     def __str__(self):
         return f"Table {self.table_number}"
-    
-    def save(self, *args, **kwargs):
-        # 先执行父类的save方法，确保对象已保存并拥有ID
-        super().save(*args, **kwargs)
 
-        # 检查二维码是否需要生成（仅在新创建或table_number变化时，为简化逻辑此处每次都生成）
-        # 1. 构建要编码到二维码中的URL
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         qr_url = f"{settings.FRONTEND_BASE_URL}/{self.table_number}"
-        
-        # 2. 生成二维码图像
         qr_img = qrcode.make(qr_url)
-        
-        # 3. 将图像保存到内存中的一个缓冲区
         buffer = BytesIO()
         qr_img.save(buffer, format='PNG')
-        
-        # 4. 创建文件名并保存到ImageField
         file_name = f'table_{self.table_number}_qr.png'
-        # 使用ContentFile将缓冲区内容包装成Django可以处理的文件对象
-        # save=False避免再次调用本save方法导致无限循环
         self.qr_code.save(file_name, ContentFile(buffer.getvalue()), save=False)
-
-        # 再次调用save，但只更新qr_code字段，以避免无限循环
         super().save(update_fields=['qr_code'])
 
 class MenuItem(models.Model):
@@ -66,9 +52,6 @@ class Order(models.Model):
 
     @property
     def total_price(self):
-        """计算并返回订单中所有菜品项的总价"""
-        # self.items 是通过 OrderItem 模型中的 related_name='items' 反向关联过来的
-        # a.price 是下单时锁定的单价， a.quantity 是数量
         return sum(item.price * item.quantity for item in self.items.all())
 
 class OrderItem(models.Model):
