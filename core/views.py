@@ -158,6 +158,38 @@ class AdminTableViewSet(viewsets.ModelViewSet):
     serializer_class = TableSerializer
     permission_classes = [DjangoModelPermissions]
 
+    lookup_field = 'table_number'
+
+    # def _has_active_orders(self, table_instance):
+    #     """
+    #     检查餐桌是否有未支付或未取消的订单。
+    #     将 `order_set` 修改为 `orders`。
+    #     """
+    #     return table_instance.orders.filter(is_paid=False).exclude(status__in=['cancelled', 'completed']).exists()
+        
+    # def perform_destroy(self, instance):
+    #     if self._has_active_orders(instance):
+    #         return Response(
+    #             {"detail": "此餐桌有未支付或未取消的订单，不能被删除。"},
+    #             status=status.HTTP_400_BAD_REQUEST
+    #         )
+    #     instance.delete()
+
+    # def update(self, request, *args, **kwargs):
+    #     """
+    #     如果餐桌有未支付或未取消的订单，则不能修改其状态为 '可用'。
+    #     """
+    #     instance = self.get_object()
+    #     new_status = request.data.get('status')
+        
+    #     if new_status == 'available' and self._has_active_orders(instance):
+    #         return Response(
+    #             {"detail": "此餐桌有未支付或未取消的订单，不能被修改为 '可用'。"},
+    #             status=status.HTTP_400_BAD_REQUEST
+    #         )
+        
+    #     return super().update(request, *args, **kwargs)
+
 class PaymentView(generics.GenericAPIView):
     """
     处理特定订单支付的API视图。

@@ -6,7 +6,7 @@ from io import BytesIO
 import qrcode
 
 class Table(models.Model):
-    table_number = models.CharField(max_length=10, unique=True, help_text="唯一的餐桌号")
+    table_number = models.CharField(max_length=10, unique=True, primary_key=True, help_text="唯一的餐桌号")
     is_available = models.BooleanField(default=True, help_text="餐桌当前是否可用?")
 
     qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True, help_text="自动生成的二维码")
@@ -55,7 +55,7 @@ class Order(models.Model):
         ('completed', '已完成'),
         ('cancelled', '已取消'),
     ]
-    table = models.ForeignKey(Table, on_delete=models.CASCADE, related_name='orders', help_text="订单所属的餐桌")
+    table = models.ForeignKey(Table, on_delete=models.PROTECT, related_name='orders', help_text="订单所属的餐桌")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', help_text="订单状态")
     is_paid = models.BooleanField(default=False, help_text="订单是否已支付")
     created_at = models.DateTimeField(auto_now_add=True)

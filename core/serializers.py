@@ -4,7 +4,7 @@ from .models import Table, MenuItem, Order, OrderItem
 class TableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Table
-        fields = ['id', 'table_number', 'is_available', 'qr_code']
+        fields = '__all__'
 
 class CustomerMenuItemSerializer(serializers.ModelSerializer):
     class Meta:
