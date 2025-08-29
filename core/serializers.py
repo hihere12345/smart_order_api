@@ -5,6 +5,7 @@ class TableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Table
         fields = '__all__'
+        read_only_fields = ['qr_code', 'created_at']
 
 class CustomerMenuItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,6 +16,7 @@ class AdminMenuItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuItem
         fields = ['id', 'name', 'description', 'price', 'is_available']
+        read_only_fields = ['created_at']
 
 class OrderItemSerializer(serializers.ModelSerializer):
     menu_item = CustomerMenuItemSerializer(read_only=True)

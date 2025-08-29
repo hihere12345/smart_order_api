@@ -25,12 +25,13 @@ SECRET_KEY = 'django-insecure-s$o1e649*%7jl0(vjn-zw(l&opvqvj*pk!!n8msl#97iv1yd91
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'import_export',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,12 +84,12 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "http://192.168.1.171:5173",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
-FRONTEND_BASE_URL = 'http://localhost:5173'
+FRONTEND_BASE_URL = 'http://192.168.1.171:5173'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 

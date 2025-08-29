@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import UserViewSet, MenuView, OrderView, StaffOrderViewSet, AdminMenuViewSet, AdminTableViewSet, PaymentView, StaffOrderItemManagementView
+from .views import UserViewSet, MenuView, OrderView, StaffOrderViewSet, AdminMenuViewSet, AdminTableViewSet, PaymentView, StaffOrderItemManagementView, SummaryReportView
 
 router = DefaultRouter()
 router.register(r'staff/orders', StaffOrderViewSet, basename='staff-order')
@@ -13,6 +13,6 @@ urlpatterns = [
     path('permissions/', UserViewSet.as_view({'get': 'userPermissions'}), name='permission-view'),
     path('orders/<int:pk>/pay/', PaymentView.as_view(), name='order-payment'),
     path('staff/order-items/<int:pk>/', StaffOrderItemManagementView.as_view(), name='staff-order-item-management'),
-
+    path('reports/summary/', SummaryReportView.as_view(), name='summary-report'),
     path('', include(router.urls)),
 ]

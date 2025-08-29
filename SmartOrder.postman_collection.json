@@ -1,0 +1,713 @@
+{
+	"info": {
+		"_postman_id": "d4523c12-d0e2-4cb6-94bd-118d097258b3",
+		"name": "SmartOrder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5172358"
+	},
+	"item": [
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "/api/staff/orders/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/staff/orders/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"staff",
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/staff/orders/{order_id}/status/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"preparing\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/staff/orders/5/status/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"staff",
+								"orders",
+								"5",
+								"status",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/staff/order-items/{itemId}/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/staff/order-items/8/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"staff",
+								"order-items",
+								"8",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/staff/order-items/{itemId}/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/staff/order-items/8/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"staff",
+								"order-items",
+								"8",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/tables/{table_number}/order/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/tables/A1/order/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tables",
+								"A1",
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/tables/{table_number}/order/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"items\": [\n        {\n            \"menu_item_id\": 2, \"quantity\": 2\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/tables/A1/order/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tables",
+								"A1",
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/orders/{orderId}/pay/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"items\": [\n        {\n            \"menu_item_id\": 1, \"quantity\": 2\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/orders/5/pay/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"5",
+								"pay",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkout",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/tables/{table_number}/order/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tables",
+								"{table_number}",
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "menu",
+			"item": [
+				{
+					"name": "/api/tables/{table_number}/menu/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/tables/1/menu/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tables",
+								"1",
+								"menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/menu/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/admin/menu/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/menu/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"红烧牛肉面\",\n    \"description\": \"精选牛腩，慢火熬制\",\n    \"price\": \"32.00\",\n    \"is_available\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/menu/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/menu/{id}/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/admin/menu/1/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"menu",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/menu/{id}/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"红烧牛肉面\",\n    \"description\": \"精选牛腩，慢火熬制\",\n    \"price\": \"35.00\",\n    \"is_available\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/menu/1/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"menu",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/menu/{id}/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/admin/menu/1/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"menu",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "table",
+			"item": [
+				{
+					"name": "/api/admin/tables/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/admin/tables/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"tables",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/tables/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"table_number\": \"A1\",\n    \"is_available\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/tables/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"tables",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/tables/{id}/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/admin/tables/A1/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"tables",
+								"A1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/tables/{id}/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"table_number\": \"A1\",\n    \"is_available\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/tables/A1/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"tables",
+								"A1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/tables/{id}/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/admin/tables/1/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"tables",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/api/login/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let data = pm.response.json();",
+							"",
+							"pm.environment.set(\"access_token\", data.access);",
+							"pm.environment.set(\"refresh_token\", data.refresh); "
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"manager1\",\n    \"password\": \"smartorder123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/login/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/permissions/",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/permissions/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"permissions",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

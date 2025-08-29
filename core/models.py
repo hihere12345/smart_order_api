@@ -8,8 +8,8 @@ import qrcode
 class Table(models.Model):
     table_number = models.CharField(max_length=10, unique=True, primary_key=True, help_text="唯一的餐桌号")
     is_available = models.BooleanField(default=True, help_text="餐桌当前是否可用?")
-
     qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True, help_text="自动生成的二维码")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
     def __str__(self):
         return f"Table {self.table_number}"
@@ -29,6 +29,7 @@ class MenuItem(models.Model):
     description = models.TextField(blank=True, help_text="菜品的详细描述")
     price = models.DecimalField(max_digits=8, decimal_places=2, help_text="菜品价格")
     is_available = models.BooleanField(default=True, help_text="菜品当前是否可售?")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
     def __str__(self):
         return self.name

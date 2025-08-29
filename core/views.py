@@ -8,6 +8,11 @@ from .serializers import (
     CustomerMenuItemSerializer, AdminMenuItemSerializer, TableSerializer,
     OrderSerializer, StaffOrderItemUpdateSerializer
 )
+from .permissions import IsInManagerGroup
+from django.utils.dateparse import parse_date
+from django.db.models import Sum, Count, F
+from datetime import date, timedelta
+from rest_framework.views import APIView
 
 class UserViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -139,7 +144,6 @@ class AdminTableViewSet(viewsets.ModelViewSet):
     lookup_field = 'table_number'
 
 class PaymentView(generics.GenericAPIView):
-
     permission_classes = [AllowAny]
 
     def post(self, request, pk, format=None):
@@ -169,3 +173,56 @@ class StaffOrderItemManagementView(generics.RetrieveUpdateDestroyAPIView):
     queryset = OrderItem.objects.all()
     serializer_class = StaffOrderItemUpdateSerializer
     permission_classes = [DjangoModelPermissions]
+
+
+class SummaryReportView(APIView):
+    permission_classes = [IsInManagerGroup]
+
+    def get(self, request, *args, **kwargs):
+        today = date.today()
+        start_date_str = request.query_params.get('start_date', today.strftime('%Y-%m-%d'))
+        end_date_str = request.query_params.get('end_date', today.strftime('%Y-%m-%d'))
+
+        start_date = parse_date(start_date_str)
+        end_date = parse_date(end_date_str)
+
+        if not start_date or not end_date:
+            return Response({"error": "日期格式无效，请使用 YYYY-MM-DD 格式。"}, status=status.HTTP_400_BAD_REQUEST)
+
+        query_end_date = end_date + timedelta(days=1)
+
+        completed_orders = Order.objects.filter(
+            status='completed',
+            created_at__gte=start_date,
+            created_at__lt=query_end_date
+        )
+
+        total_revenue_data = completed_orders.aggregate(
+            total=Sum(F('items__price') * F('items__quantity'))
+        )
+        total_revenue = total_revenue_data['total'] or 0
+        total_orders = completed_orders.count()
+        top_selling_items = OrderItem.objects.filter(
+            order__in=completed_orders
+        ).values(
+            'menu_item__name'
+        ).annotate(
+            total_sold=Sum('quantity')
+        ).order_by(
+            '-total_sold'
+        )[:5]
+
+        report_data = {
+            'query_range': {
+                'start_date': start_date_str,
+                'end_date': end_date_str,
+            },
+            'summary': {
+                'total_revenue': f"{total_revenue:.2f}",
+                'total_orders': total_orders,
+                'average_order_value': f"{(total_revenue / total_orders):.2f}" if total_orders > 0 else "0.00",
+            },
+            'top_selling_items': list(top_selling_items)
+        }
+
+        return Response(report_data, status=status.HTTP_200_OK)
